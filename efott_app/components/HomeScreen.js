@@ -1,79 +1,126 @@
 import * as React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Divider } from '@react-native-material/core';
-import Ionicons from '@expo/vector-icons/Ionicons'
+import { useCallback } from 'react';
+import { StyleSheet, Text, View, Image, ImageBackground, Pressable, Linking } from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { useFonts } from 'expo-font'
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
+    const [loaded] = useFonts({
+        'Jost': require('../assets/fonts/Jost-VariableFont_wght.ttf'),
+    });
+    if (!loaded) {
+        return null
+    }
     return (
-        <View style={styles.container}>
-            <Text style={styles.headerText}>Events featured by All/In Festival</Text>
-            <View style={[styles.container, styles.eventContainer]}>
-                <View style={styles.eventButton}>
-                    <Text>Valmar</Text>
-                    <Text>22:00-22:30</Text>
+        <View>
+            <ImageBackground source={require('../assets/Post_image.png')} style={{ width: '100%', height: '100%' }}>
+                <View style={styles.container}>
+                    <View style={styles.column}>
+                        <Pressable style={styles.buttonContainer} onPress={() => navigation.navigate('Események')}>
+                            <View style={styles.button}>
+                                <Ionicons name='ios-calendar-outline' size={100} color='white' />
+                                <Text style={styles.buttonText}>Események</Text>
+                            </View>
+                        </Pressable>
+                        <Image source={require('../assets/festival.png')} style={{ marginTop: '10%', width: '80%', borderRadius: 20 }} />
+                        <OpenURLButton url='https://www.foodpanda.hu/?ef_id=Y-8bFwAAAI6CCgXD:20230301094521:s' />
+                    </View>
+                    <View style={styles.column}>
+                        <Text style={styles.headerText}>HOME</Text>
+                        <Pressable style={styles.buttonContainer} onPress={() => navigation.navigate('iN/Touch')}>
+                            <View style={styles.button}>
+                                <Ionicons name='ios-people-outline' size={100} color='white' />
+                                <Text style={styles.buttonText}>iN/Touch</Text>
+                            </View>
+                        </Pressable>
+                        <Pressable style={styles.buttonContainer} onPress={() => navigation.navigate('Térkép')}>
+                            <View style={styles.button}>
+                                <Ionicons name='ios-map-outline' size={100} color='white' />
+                                <Text style={styles.buttonText}>Térkép</Text>
+                            </View>
+                        </Pressable>
+                        <Pressable style={styles.buttonContainer} onPress={() => navigation.navigate('Beállítások')}>
+                            <View style={styles.button}>
+                                <Ionicons name='ios-settings-outline' size={100} color='white' />
+                                <Text style={styles.buttonText}>Beállítások</Text>
+                            </View>
+                        </Pressable>
+                    </View>
                 </View>
-                <Divider color='gray' />
-                <View style={styles.eventButton}>
-                    <Text>Valmar</Text>
-                    <Text>22:00-22:30</Text>
-                </View>
-                <Divider color='gray' />
-                <View style={styles.eventButton}>
-                    <Text>Valmar</Text>
-                    <Text>22:00-22:30</Text>
-                </View>
-                <Divider color='gray' />
-                <View style={styles.eventButton}>
-                    <Text>Valmar</Text>
-                    <Text>22:00-22:30</Text>
-                </View>
-                <Divider color='gray' />
-                <View style={styles.loadMoreButton}>
-                    <Ionicons color='black' name='ios-reload' size= '25'></Ionicons>
-                    <Text style={styles.loadMoreText}>Load more events...</Text>
-                </View>
-            </View>
+            </ImageBackground>
         </View>
     )
 }
 
+const OpenURLButton = ({ url }) => {
+    const handlePress = useCallback(async () => {
+        // Checking if the link is supported for links with custom URL scheme.
+        const supported = await Linking.canOpenURL(url);
+
+        if (supported) {
+            // Opening the link with some app, if the URL scheme is "http" the web link should be opened
+            // by some browser in the mobile
+            await Linking.openURL(url);
+        } else {
+            Alert.alert(`Don't know how to open this URL: ${url}`);
+        }
+    }, [url]);
+
+    return <Pressable style={styles.buttonContainer} onPress={handlePress}>
+        <View style={styles.button}>
+            <Ionicons name='ios-basket-outline' size={100} color='white' />
+            <Text style={styles.buttonText}>Rendelés</Text>
+        </View>
+    </Pressable>
+};
+
 const styles = StyleSheet.create({
     container: {
-        padding: '10%'
+        paddingTop: '5%',
+        paddingBottom: '20%',
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     },
-    headerText: {
-        fontWeight: 'bold',
-        fontSize: 20
+    column: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        marginTop: '20%'
     },
-    eventContainer: {
-        backgroundColor: 'white',
-        height: '80%',
+    buttonContainer: {
+        height: '24.5%',
         marginTop: '10%',
-        borderRadius: 25,
-        shadowColor: 'gray',
-        shadowOffset: {
-            width: 5,
-            height: 5
-        },
-        shadowOpacity: 0.3
-    },
-    eventButton: {
+        width: '80%',
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'space-evenly',
-        alignItems: 'flex-start',
-        marginTop: '10%'
-    },
-    loadMoreText: {
-        fontWeight: 'bold',
-        textAlign: 'center',
-    },
-    loadMoreButton: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-around',
         alignItems: 'center',
+        backgroundColor: 'rgba(97,42,122,0.95)',
+        borderRadius: 20,
+        borderColor: 'white',
+        borderWidth: 3
+    },
+    buttonText: {
+        fontSize: 16,
+        color: 'white',
+        fontFamily: 'Jost',
+        fontWeight: '900'
+    },
+    headerText: {
+        color: 'white',
+        fontSize: 40,
+        fontFamily: 'Jost',
+        fontWeight: '900'
+    },
+    button: {
+        height: '24.5%',
         marginTop: '10%',
-        marginHorizontal: '10%'
+        width: '80%',
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
     }
 })

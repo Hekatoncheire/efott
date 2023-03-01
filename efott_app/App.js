@@ -1,57 +1,63 @@
-import { Text, View } from 'react-native';
 import * as React from 'react';
-import 'react-native-gesture-handler';
-import { NavigationContainer } from '@react-navigation/native' ;
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Ionicons from '@expo/vector-icons/Ionicons'
 import HomeScreen from '../efott_app/components/HomeScreen'
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import EventScreen from './components/EventScreen';
+import SwipeScreen from './components/SwipeScreen';
+import MapScreen from './components/MapScreen';
+import SettingsScreen from './components/SettingsScreen';
 
-const Tab = createBottomTabNavigator();
-
-
-function CalendarScreen(){
-  return (
-    <View>
-      <Text>Calendar</Text>
-    </View>
-  )
-}
-
-function ConnectScreen(){
-  return (
-    <View>
-      <Text>in/Touch</Text>
-    </View>
-  )
-}
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Tab.Navigator screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-
-            if (route.name === 'Home') {
-              iconName = focused
-                ? 'ios-home'
-                : 'ios-home-outline';
-            } else if (route.name === 'Calendar') {
-              iconName = focused ? 'ios-calendar' : 'ios-calendar-outline';
-            } else if (route.name === 'in/Touch') {
-              iconName = focused ? 'ios-people' : 'ios-people-outline'
+      <Stack.Navigator>
+        <Stack.Screen
+          name='Kezdőlap'
+          component={HomeScreen}
+          options={{ headerShown: false }} />
+        <Stack.Screen
+          name='Események'
+          component={EventScreen}
+          options={
+            {
+              headerStyle: { backgroundColor: '#E86B3E' },
+              headerBackTitle: 'Vissza',
+              headerLargeTitleStyle: { color: 'white', fontFamily: 'Jost', fontWeight: 'bold' }, headerBackTitleStyle: { fontFamily: 'Jost' }, headerTintColor: 'white', headerLargeTitle: true
             }
-
-            // You can return any component that you like here!
-            return <Ionicons name={iconName} size={size} color={color} />;
-          },
-          tabBarActiveTintColor: 'tomato',
-          tabBarInactiveTintColor: 'gray',
-        })}>
-        <Tab.Screen name='Home' component={HomeScreen}/>
-        <Tab.Screen name='Calendar' component={CalendarScreen}/>
-        <Tab.Screen name='in/Touch' component={ConnectScreen}/>
-      </Tab.Navigator>
+          }/>
+          <Stack.Screen
+            name='iN/Touch'
+            component={SwipeScreen}
+            options={
+              {
+                headerStyle: { backgroundColor: '#E86B3E' },
+                headerBackTitle: 'Vissza',
+                headerLargeTitleStyle: { color: 'white', fontFamily: 'Jost', fontWeight: 'bold' }, headerBackTitleStyle: { fontFamily: 'Jost' }, headerTintColor: 'white', headerLargeTitle: true
+              }
+            }/>
+            <Stack.Screen
+            name='Térkép'
+            component={MapScreen}
+            options={
+              {
+                headerStyle: { backgroundColor: '#E86B3E' },
+                headerBackTitle: 'Vissza',
+                headerLargeTitleStyle: { color: 'white', fontFamily: 'Jost', fontWeight: 'bold' }, headerBackTitleStyle: { fontFamily: 'Jost' }, headerTintColor: 'white', headerLargeTitle: true
+              }
+            }/>
+            <Stack.Screen
+            name='Beállítások'
+            component={SettingsScreen}
+            options={
+              {
+                headerStyle: { backgroundColor: '#E86B3E' },
+                headerBackTitle: 'Vissza',
+                headerLargeTitleStyle: { color: 'white', fontFamily: 'Jost', fontWeight: 'bold' }, headerBackTitleStyle: { fontFamily: 'Jost' }, headerTintColor: 'white', headerLargeTitle: true
+              }
+            }/>
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
