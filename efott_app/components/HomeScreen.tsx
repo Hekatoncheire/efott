@@ -1,15 +1,20 @@
 import * as React from 'react';
 import { useCallback } from 'react';
-import { StyleSheet, Text, View, Image, ImageBackground, Pressable, Linking } from 'react-native';
+import { StyleSheet, Text, View, Image, ImageBackground, Pressable, Linking, Alert } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useFonts } from 'expo-font'
+import { Session } from '@supabase/supabase-js';
+import LoginScreen from './LoginScreen';
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen({ navigation, session }: {navigation: any, session: Session}) {
     const [loaded] = useFonts({
         'Jost': require('../assets/fonts/Jost-VariableFont_wght.ttf'),
     });
     if (!loaded) {
         return null
+    }
+    if (!session?.user) {
+        return <LoginScreen/>
     }
     return (
         <View>
