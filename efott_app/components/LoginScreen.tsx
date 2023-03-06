@@ -5,13 +5,17 @@ import { useFonts } from 'expo-font'
 import { useState } from 'react';
 import { supabase } from '../lib/supabase_config';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NavigationContainer } from '@react-navigation/native';
-import RegistrationScreen from './RegistrationScreen';
 
 export default function LoginScreen({ navigation }: { navigation: any }) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [loading, setLoading] = useState(false)
+    const [loaded] = useFonts({
+        'Jost': require('../assets/fonts/Jost-VariableFont_wght.ttf'),
+    });
+    if (!loaded) {
+        return null
+    }
 
     async function signInWithEmail() {
         setLoading(true)

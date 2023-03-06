@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useCallback } from 'react';
+import { useCallback, useContext } from 'react';
 import { StyleSheet, Text, View, Image, ImageBackground, Pressable, Linking, Alert } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useFonts } from 'expo-font'
@@ -8,8 +8,10 @@ import LoginScreen from './LoginScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import RegistrationScreen from './RegistrationScreen';
+import AuthContext from '../AuthContext';
 
-export default function HomeScreen({ navigation, session }: { navigation: any, session: Session }) {
+export default function HomeScreen({ navigation}: { navigation: any, session: Session }) {
+    const { session } = useContext(AuthContext);
     const [loaded] = useFonts({
         'Jost': require('../assets/fonts/Jost-VariableFont_wght.ttf'),
     });

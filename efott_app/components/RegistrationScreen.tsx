@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Image, ImageBackground, TextInput, Pressable, A
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useState } from 'react';
 import { supabase } from '../lib/supabase_config';
+import { useFonts } from 'expo-font'
 
 export default function RegistrationScreen({ navigation }: { navigation: any }) {
     const [email, setEmail] = useState('')
@@ -10,6 +11,12 @@ export default function RegistrationScreen({ navigation }: { navigation: any }) 
     const [name, setName] = useState('')
     const [aszf, setAszf] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [loaded] = useFonts({
+        'Jost': require('../assets/fonts/Jost-VariableFont_wght.ttf'),
+    });
+    if (!loaded) {
+        return null
+    }
 
     async function signInWithEmail() {
         setLoading(true)
@@ -103,19 +110,19 @@ export default function RegistrationScreen({ navigation }: { navigation: any }) 
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <View style={{ flex: 1, height: 1, backgroundColor: 'white' }} />
                     <View>
-                        <Text style={{ width: 150, textAlign: 'center', color: 'white', fontFamily: 'Jost', fontSize: 20}}>Belépés mint</Text>
+                        <Text style={{ width: 150, textAlign: 'center', color: 'white', fontFamily: 'Jost', fontSize: 20 }}>Belépés mint</Text>
                     </View>
                     <View style={{ flex: 1, height: 1, backgroundColor: 'white' }} />
                 </View>
-                <View style={{flexDirection: 'row', justifyContent: 'space-around', padding: '5%'}}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-around', padding: '5%' }}>
                     <Pressable>
-                        <Ionicons name='logo-google' size={38} color='white'/>
+                        <Ionicons name='logo-google' size={38} color='white' />
                     </Pressable>
                     <Pressable>
-                        <Ionicons name='logo-facebook' size={38} color='white'/>
+                        <Ionicons name='logo-facebook' size={38} color='white' />
                     </Pressable>
                     <Pressable>
-                        <Ionicons name='logo-apple' size={38} color='white'/>
+                        <Ionicons name='logo-apple' size={38} color='white' />
                     </Pressable>
                 </View>
                 <Pressable style={{ alignItems: 'center' }} onPress={() => signUpWithEmail()} disabled={loading}>
