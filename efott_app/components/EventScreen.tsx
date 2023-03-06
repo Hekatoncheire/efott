@@ -19,13 +19,13 @@ export default function EventScreen({session}: {session: Session}) {
             if (!session?.user) throw new Error('No user on the session!')
 
             let { data, error, status } = await supabase
-                .from('evetns')
+                .from('events')
                 .select(`artist, day, time, stage`)
             if (error && status !== 406) {
                 throw error
             }
             if (data) {
-                console.log('Success!')
+                console.log(data)
             }
         } catch (error) {
             if (error instanceof Error) {

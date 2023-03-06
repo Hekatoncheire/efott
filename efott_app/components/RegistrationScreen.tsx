@@ -1,16 +1,14 @@
 import * as React from 'react';
 import { StyleSheet, Text, View, Image, ImageBackground, TextInput, Pressable, Alert } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { useFonts } from 'expo-font'
 import { useState } from 'react';
 import { supabase } from '../lib/supabase_config';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NavigationContainer } from '@react-navigation/native';
-import RegistrationScreen from './RegistrationScreen';
 
-export default function LoginScreen({ navigation }: { navigation: any }) {
+export default function RegistrationScreen({ navigation }: { navigation: any }) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [name, setName] = useState('')
+    const [aszf, setAszf] = useState(false)
     const [loading, setLoading] = useState(false)
 
     async function signInWithEmail() {
@@ -28,8 +26,24 @@ export default function LoginScreen({ navigation }: { navigation: any }) {
         }
         setLoading(false)
     }
+    async function signUpWithEmail() {
+        if (email != '' && password != '') {
+            setLoading(true)
+            const { error } = await supabase.auth.signUp({
+                email: email,
+                password: password,
+            })
 
-    const Stack = createNativeStackNavigator();
+            if (error) {
+                Alert.alert(error.message)
+            }
+            else {
+                Alert.alert("Sikeres regisztráció")
+            }
+            setLoading(false)
+        }
+        return;
+    }
 
     return (
         <ImageBackground
@@ -45,7 +59,20 @@ export default function LoginScreen({ navigation }: { navigation: any }) {
                 }
             }>
             <View style={styles.loginContainer}>
-                <Text style={styles.headerText}>Bejelentkezés</Text>
+                <Text style={styles.headerText}>Regisztráció</Text>
+                <Text style={styles.labelText}>
+                    Név
+                </Text>
+                <View style={[styles.inputContainer]}>
+                    <Ionicons name='ios-person-outline' color='white' size={28} style={{ marginRight: '5%' }} />
+                    <TextInput
+                        onChangeText={(text) => setName(text)}
+                        value={name}
+                        placeholder="Kis Pista"
+                        autoCapitalize={'none'} autoComplete={undefined}
+                        autoCorrect={false}
+                        placeholderTextColor='white' />
+                </View>
                 <Text style={styles.labelText}>
                     E-mail cím
                 </Text>
@@ -73,19 +100,36 @@ export default function LoginScreen({ navigation }: { navigation: any }) {
                         autoCorrect={false}
                         placeholderTextColor='white' />
                 </View>
-                <Pressable style={{ alignItems: 'center' }} onPress={() => signInWithEmail()} disabled={loading}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={{ flex: 1, height: 1, backgroundColor: 'white' }} />
+                    <View>
+                        <Text style={{ width: 150, textAlign: 'center', color: 'white', fontFamily: 'Jost', fontSize: 20}}>Belépés mint</Text>
+                    </View>
+                    <View style={{ flex: 1, height: 1, backgroundColor: 'white' }} />
+                </View>
+                <View style={{flexDirection: 'row', justifyContent: 'space-around', padding: '5%'}}>
+                    <Pressable>
+                        <Ionicons name='logo-google' size={38} color='white'/>
+                    </Pressable>
+                    <Pressable>
+                        <Ionicons name='logo-facebook' size={38} color='white'/>
+                    </Pressable>
+                    <Pressable>
+                        <Ionicons name='logo-apple' size={38} color='white'/>
+                    </Pressable>
+                </View>
+                <Pressable style={{ alignItems: 'center' }} onPress={() => signUpWithEmail()} disabled={loading}>
                     <View style={styles.loginButton}>
-                        <Text style={styles.buttonText}>Belépés</Text>
+                        <Text style={styles.buttonText}>Regisztráció</Text>
                     </View>
                 </Pressable>
                 <View style={styles.textView}>
-                    <Pressable onPress={() => { navigation.navigate('Regisztráció') }}>
-                        <Text style={styles.clickableText}>Még nincs fiókod? Regisztráció</Text>
+                    <Pressable onPress={() => { navigation.navigate('Bejelentkezés') }}>
+                        <Text style={styles.clickableText}>Már van fiókod? Belépés</Text>
                     </Pressable>
                 </View>
             </View>
         </ImageBackground>
-
     )
 }
 
@@ -94,7 +138,7 @@ export default function LoginScreen({ navigation }: { navigation: any }) {
 const styles = StyleSheet.create({
     loginContainer: {
         backgroundColor: '#612A7A',
-        height: '52%',
+        height: '72.5%',
         width: '93%',
         marginTop: '25%',
         paddingHorizontal: '5%',
@@ -134,7 +178,7 @@ const styles = StyleSheet.create({
         }
     },
     loginButton: {
-        marginTop: '10%',
+        marginTop: '5%',
         backgroundColor: '#FEC001',
         width: '70%',
         height: 60,

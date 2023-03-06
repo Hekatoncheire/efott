@@ -5,17 +5,18 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { useFonts } from 'expo-font'
 import { Session } from '@supabase/supabase-js';
 import LoginScreen from './LoginScreen';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
+import RegistrationScreen from './RegistrationScreen';
 
-export default function HomeScreen({ navigation, session }: {navigation: any, session: Session}) {
+export default function HomeScreen({ navigation, session }: { navigation: any, session: Session }) {
     const [loaded] = useFonts({
         'Jost': require('../assets/fonts/Jost-VariableFont_wght.ttf'),
     });
     if (!loaded) {
         return null
     }
-    if (!session?.user) {
-        return <LoginScreen/>
-    }
+
     return (
         <View>
             <ImageBackground source={require('../assets/Post_image.png')} style={{ width: '100%', height: '100%' }}>
