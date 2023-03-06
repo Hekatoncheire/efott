@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, ImageBackground, Alert } from 'react-nat
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useFonts } from 'expo-font';
 import { supabase } from '../lib/supabase_config';
-import AuthContext from '../AuthContext';
+import AuthContext from '../lib/AuthContext';
 
 export default function EventScreen() {
     const [loading, setLoading] = useState(true)

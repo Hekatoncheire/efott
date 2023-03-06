@@ -8,7 +8,7 @@ import LoginScreen from './LoginScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import RegistrationScreen from './RegistrationScreen';
-import AuthContext from '../AuthContext';
+import AuthContext from '../lib/AuthContext';
 
 export default function HomeScreen({ navigation}: { navigation: any, session: Session }) {
     const { session } = useContext(AuthContext);

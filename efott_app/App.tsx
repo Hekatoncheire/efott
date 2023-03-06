@@ -11,7 +11,7 @@ import { Session } from '@supabase/supabase-js';
 import { supabase } from './lib/supabase_config';
 import LoginScreen from './components/LoginScreen';
 import RegistrationScreen from './components/RegistrationScreen';
-import AuthContext from './AuthContext';
+import AuthContext from './lib/AuthContext';
 
 const Stack = createNativeStackNavigator();
 
