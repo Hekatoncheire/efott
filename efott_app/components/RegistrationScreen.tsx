@@ -42,6 +42,11 @@ export default function RegistrationScreen({ navigation }: { navigation: any }) 
             const { error } = await supabase.auth.signUp({
                 email: email,
                 password: password,
+                options: {
+                    data: {
+                        username: name
+                    }
+                }
             })
 
             if (error) {
@@ -54,36 +59,6 @@ export default function RegistrationScreen({ navigation }: { navigation: any }) 
             setLoading(false)
         }
         return;
-    }
-    async function updateProfile({
-        username,
-    }: {
-        username: string
-    }) {
-        try {
-            setLoading(true)
-            if (!session?.user) throw new Error('No user on the session!')
-
-            const updates = {
-                id: session?.user.id,
-                username,
-            }
-
-            let { error } = await supabase.from('profiles').upsert(updates)
-
-            if (error) {
-                throw error
-            }
-            else {
-                Alert.alert("Profil sikeresen frissítve")
-            }
-        } catch (error) {
-            if (error instanceof Error) {
-                Alert.alert(error.message)
-            }
-        } finally {
-            setLoading(false)
-        }
     }
 
     return (
