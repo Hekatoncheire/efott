@@ -47,8 +47,8 @@ export default function EventScreen() {
     }
 
     return (
-        <ImageBackground source={require('../assets/event_background.png')} style={{ height: '100%', width: '100%', paddingTop: 175, flex: 1, flexDirection: 'column', alignItems: 'center' }}>
-            <ScrollView>
+        <ImageBackground source={require('../assets/event_background.png')} style={{ height: '100%', width: '100%', flex: 1, flexDirection: 'column', alignItems: 'center'}}>
+            <ScrollView contentInsetAdjustmentBehavior='automatic'>
                 {events.map((item) => (
                     <View key={item.id} style={styles.eventContainer}>
                         <ImageBackground source={require('../assets/Paralelogramma.png')} style={styles.imageBackground}>

@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { StyleSheet, Text, View, Image, ImageBackground, TextInput, Pressable, Alert } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { supabase } from '../lib/supabase_config';
 import { useFonts } from 'expo-font'
+import AuthContext from '../lib/AuthContext';
 
 export default function RegistrationScreen({ navigation }: { navigation: any }) {
     const [email, setEmail] = useState('')
@@ -14,6 +15,8 @@ export default function RegistrationScreen({ navigation }: { navigation: any }) 
     const [loaded] = useFonts({
         'Jost': require('../assets/fonts/Jost-VariableFont_wght.ttf'),
     });
+    const { session } = useContext(AuthContext);
+
     if (!loaded) {
         return null
     }
@@ -46,10 +49,41 @@ export default function RegistrationScreen({ navigation }: { navigation: any }) 
             }
             else {
                 Alert.alert("Sikeres regisztráció")
+                signInWithEmail();
             }
             setLoading(false)
         }
         return;
+    }
+    async function updateProfile({
+        username,
+    }: {
+        username: string
+    }) {
+        try {
+            setLoading(true)
+            if (!session?.user) throw new Error('No user on the session!')
+
+            const updates = {
+                id: session?.user.id,
+                username,
+            }
+
+            let { error } = await supabase.from('profiles').upsert(updates)
+
+            if (error) {
+                throw error
+            }
+            else {
+                Alert.alert("Profil sikeresen frissítve")
+            }
+        } catch (error) {
+            if (error instanceof Error) {
+                Alert.alert(error.message)
+            }
+        } finally {
+            setLoading(false)
+        }
     }
 
     return (
@@ -125,7 +159,7 @@ export default function RegistrationScreen({ navigation }: { navigation: any }) 
                         <Ionicons name='logo-apple' size={38} color='white' />
                     </Pressable>
                 </View>
-                <Pressable style={{ alignItems: 'center' }} onPress={() => signUpWithEmail()} disabled={loading}>
+                <Pressable style={{ alignItems: 'center' }} onPress={() => { signUpWithEmail(); }} disabled={loading}>
                     <View style={styles.loginButton}>
                         <Text style={styles.buttonText}>Regisztráció</Text>
                     </View>

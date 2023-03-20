@@ -58,7 +58,9 @@ export default function App() {
                 {
                   headerStyle: { backgroundColor: '#E86B3E' },
                   headerBackTitle: 'Vissza',
-                  headerLargeTitleStyle: { color: 'white', fontFamily: 'Jost', fontWeight: 'bold' }, headerBackTitleStyle: { fontFamily: 'Jost' }, headerTintColor: 'white', headerLargeTitle: true
+                  headerBackTitleStyle: { fontFamily: 'Jost' },
+                  headerTintColor: 'white',
+                  headerTitleStyle: { fontFamily: 'Jost' }
                 }
               } />
             <Stack.Screen
