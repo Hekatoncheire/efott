@@ -5,13 +5,9 @@ import { useFonts } from 'expo-font';
 import { supabase } from '../lib/supabase_config';
 import AuthContext from '../lib/AuthContext';
 
-type Event = {
-    id: number,
-    artist: string
-}
+
 
 export default function EventScreen() {
-    const [events, setEvents] = useState<Event[]>([]);
     const [loading, setLoading] = useState(true)
     const { session } = useContext(AuthContext);
     const [loaded] = useFonts({
@@ -33,14 +29,14 @@ export default function EventScreen() {
             setLoading(true)
             if (!session?.user) throw new Error('No user on the session!')
 
-            let { data, error } = await supabase
-                .from('events')
+            let { data, error, status } = await supabase
+                .from('esemenyek')
                 .select('*')
-            if (error) {
+            if (error && status !== 406) {
                 throw error
             }
             if (data) {
-                setEvents(data)
+                //setEvents(data)
             }
         } catch (error) {
             if (error instanceof Error) {
@@ -54,11 +50,6 @@ export default function EventScreen() {
     return (
         <ImageBackground source={require('../assets/event_background.png')} style={{ height: '100%', width: '100%' }}>
             <View style={styles.eventColumn}>
-                {events.map((item) => (
-                    <View key={item.id}>
-                        <Text >{item.artist}</Text>
-                    </View>
-                ))}
             </View>
         </ImageBackground>
     )
