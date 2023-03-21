@@ -5,11 +5,15 @@ import { useFonts } from 'expo-font'
 import AuthContext from '../lib/AuthContext';
 import { supabase } from '../lib/supabase_config';
 import Swiper from 'react-native-deck-swiper';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import MatchScreen from './MatchScreen';
 
 export default function SwipeScreen() {
     const { session } = useContext(AuthContext);
     const [loading, setLoading] = useState(true);
     const [users, setUsers] = useState([]);
+
+    const Tab = createBottomTabNavigator();
 
     useEffect(() => {
         if (session) {
@@ -29,7 +33,6 @@ export default function SwipeScreen() {
             }
             if (data) {
                 setUsers(data)
-                console.log(data)
             }
 
         } catch (error) {
@@ -40,9 +43,9 @@ export default function SwipeScreen() {
             setLoading(true)
         }
     }
-
-    return (
-        <ImageBackground source={require('../assets/event_background.png')} style={{ height: '150%', width: '100%', flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginBottom: '50%' }}>
+    function SwipeComponent () {
+        return (
+            <ImageBackground source={require('../assets/event_background.png')} style={{ height: '150%', width: '100%', flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginBottom: '50%' }}>
             <Swiper
                 cards={users}
                 renderCard={(card) => {
@@ -58,14 +61,6 @@ export default function SwipeScreen() {
                         }}>
                             <Text style={styles.cardTitle}>{card.username}</Text>
                             <Image source={require('../assets/festival.png')} style={{ height: 300, width: 300, resizeMode: 'cover' }} onError={(e) => console.log(e)} />
-                            <View style={styles.buttonsContainer}>
-                                <Pressable style={styles.button}>
-
-                                </Pressable>
-                                <Pressable style={styles.button}>
-
-                                </Pressable>
-                            </View>
                         </View>
                     );
                 }}
@@ -78,13 +73,20 @@ export default function SwipeScreen() {
                 cardStyle={styles.swiperCard}
             />
         </ImageBackground>
+        )
+    }
+    return (
+        <Tab.Navigator screenOptions={{headerShown: false, tabBarStyle: {backgroundColor: '#612A7A'}}}>
+            <Tab.Screen name='IN/TOUCH' component={SwipeComponent}/>
+            <Tab.Screen name='Párok' component={MatchScreen}/>
+        </Tab.Navigator>
     )
 }
 
 const styles = StyleSheet.create({
     swipeCard: {
         backgroundColor: 'rgba(97,42,122,0.9)',
-        height: 520,
+        height: 420,
         width: '90%',
         marginTop: '20%',
         flex: 1,
