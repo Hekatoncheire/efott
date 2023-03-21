@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, Text, View, Image, ImageBackground, TextInput, Pressable, Alert } from 'react-native';
+import { StyleSheet, Text, View, Image, ImageBackground, TextInput, Pressable, Alert, ScrollView } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useContext, useState } from 'react';
 import { supabase } from '../lib/supabase_config';
@@ -75,6 +75,7 @@ export default function RegistrationScreen({ navigation }: { navigation: any }) 
                 }
             }>
             <View style={styles.loginContainer}>
+                <ScrollView>
                 <Text style={styles.headerText}>Regisztráció</Text>
                 <Text style={styles.labelText}>
                     Név
@@ -144,6 +145,8 @@ export default function RegistrationScreen({ navigation }: { navigation: any }) 
                         <Text style={styles.clickableText}>Már van fiókod? Belépés</Text>
                     </Pressable>
                 </View>
+
+                </ScrollView>
             </View>
         </ImageBackground>
     )
@@ -154,8 +157,8 @@ export default function RegistrationScreen({ navigation }: { navigation: any }) 
 const styles = StyleSheet.create({
     loginContainer: {
         backgroundColor: '#612A7A',
-        height: '72.5%',
-        width: '93%',
+        height: 679,
+        width: 360,
         marginTop: '25%',
         paddingHorizontal: '5%',
         justifyContent: 'flex-start',
@@ -166,7 +169,6 @@ const styles = StyleSheet.create({
         fontFamily: 'Jost',
         color: 'white',
         fontWeight: 'bold',
-        marginBottom: '5%',
         textAlign: 'center'
     },
     labelText: {

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Image, ImageBackground, ScrollView, Alert } from 'react-native';
+import { StyleSheet, Text, View, Image, ImageBackground, ScrollView, Alert, Pressable } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useFonts } from 'expo-font'
 import AuthContext from '../lib/AuthContext';
@@ -22,15 +22,16 @@ export default function SwipeScreen() {
             setLoading(true)
             if (!session?.user) throw new Error('No user on the session!')
 
-            let { data, error, status } = await supabase.from('profiles').select('*').neq('id', session?.user.id)
-            
+            let { data, error, status } = await supabase.from('profiles').select('*')
+
             if (error && status !== 406) {
                 throw error
             }
             if (data) {
                 setUsers(data)
+                console.log(data)
             }
-            
+
         } catch (error) {
             if (error instanceof Error) {
                 Alert.alert(error.message)
@@ -41,10 +42,41 @@ export default function SwipeScreen() {
     }
 
     return (
-        <ImageBackground source={require('../assets/login.png')} style={{ height: '120%', width: '100%', flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginBottom: '30%' }}>
-            <View style={styles.swipeCard}>
-                <Text style={styles.cardTitle}>IN/TOUCH</Text>
-            </View>
+        <ImageBackground source={require('../assets/event_background.png')} style={{ height: '150%', width: '100%', flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginBottom: '50%' }}>
+            <Swiper
+                cards={users}
+                renderCard={(card) => {
+                    if (!card) {
+                        return <View><Text>Loading...</Text></View>;
+                    }
+                    return (
+                        <View style={{
+                            flex: 1,
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            paddingLeft: '20%'
+                        }}>
+                            <Text style={styles.cardTitle}>{card.username}</Text>
+                            <Image source={require('../assets/festival.png')} style={{ height: 300, width: 300, resizeMode: 'cover' }} onError={(e) => console.log(e)} />
+                            <View style={styles.buttonsContainer}>
+                                <Pressable style={styles.button}>
+
+                                </Pressable>
+                                <Pressable style={styles.button}>
+
+                                </Pressable>
+                            </View>
+                        </View>
+                    );
+                }}
+                verticalSwipe={false}
+                onSwipedAll={() => { }}
+                onSwipedLeft={() => { }}
+                onSwipedRight={() => { }}
+                onTapCard={() => { }}
+                containerStyle={styles.swipeCard}
+                cardStyle={styles.swiperCard}
+            />
         </ImageBackground>
     )
 }
@@ -52,18 +84,58 @@ export default function SwipeScreen() {
 const styles = StyleSheet.create({
     swipeCard: {
         backgroundColor: 'rgba(97,42,122,0.9)',
-        height: '67%',
+        height: 520,
         width: '90%',
-        marginTop: '54%',
+        marginTop: '20%',
         flex: 1,
         flexDirection: 'column',
         alignItems: 'center',
-        paddingTop: '5%'
+        paddingLeft: '25%',
+        marginLeft: '5%',
+        position: 'absolute',
+        zIndex: 0
     },
     cardTitle: {
         color: 'white',
         fontFamily: 'Jost',
-        fontSize: 30
+        fontSize: 26,
+        textAlign: 'center',
+        textTransform: 'uppercase',
+        marginBottom: '5%'
+    },
+    swiperCard: {
+        width: '100%',
+        height: 150,
+        borderRadius: 10,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.29,
+        shadowRadius: 4.65,
+        elevation: 7,
+    },
+    buttonsContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        paddingHorizontal: '10%',
+        alignItems: 'center',
+        zIndex: 1
+    },
+    button: {
+        height: 75,
+        marginTop: '75%',
+        marginHorizontal: '5%',
+        width: 500,
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+        backgroundColor: 'rgba(97,42,122,0.95)',
+        borderRadius: 20,
+        borderColor: 'white',
+        borderWidth: 3
     }
 })
 
