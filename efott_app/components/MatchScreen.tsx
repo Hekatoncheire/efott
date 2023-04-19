@@ -7,8 +7,6 @@ import { supabase } from '../lib/supabase_config';
 import { createStackNavigator } from '@react-navigation/stack';
 import ChatScreen from './ChatScreen';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Divider } from '@rneui/themed';
-
 export default function MatchScreen() {
     const { session } = useContext(AuthContext);
     const [loading, setLoading] = useState(true);
@@ -57,7 +55,6 @@ export default function MatchScreen() {
                                 <Text></Text>
                             </View>
                         </View>
-                        <Divider />
                     </View>
                 ))}
             </LinearGradient>

@@ -1828,7 +1828,7 @@
 
 "@rneui/themed@^4.0.0-rc.7":
   version "4.0.0-rc.7"
-  resolved "https://registry.npmjs.org/@rneui/themed/-/themed-4.0.0-rc.7.tgz"
+  resolved "https://registry.yarnpkg.com/@rneui/themed/-/themed-4.0.0-rc.7.tgz#5a016b853ee2e62bfd3183d39fc03b35864012f6"
   integrity sha512-nRF95gFTv/8JEx01L8q9p9VWKE5M/luPWPKYsWHKUQ5PHqwveQId/V5+ba9yiXsYIl9VbJJ1nLlqfHVP00u/3Q==
 
 "@segment/loosely-validate-event@^2.0.0":
@@ -3299,7 +3299,7 @@ expo-keep-awake@~11.0.1:
 
 expo-linear-gradient@~12.0.1:
   version "12.0.1"
-  resolved "https://registry.yarnpkg.com/expo-linear-gradient/-/expo-linear-gradient-12.0.1.tgz#452f793b0463ddf313aad431552f23acc85f5d64"
+  resolved "https://registry.npmjs.org/expo-linear-gradient/-/expo-linear-gradient-12.0.1.tgz"
   integrity sha512-TMl/wBTVQOliL4S3DS5Aa3UFfVySr0mdJEHLG6kfBdMCLkr+tfLI2rGyJ+scS7xgMsvhTIaurhf1+Z0sL3aLCg==
 
 expo-modules-autolinking@1.0.2:

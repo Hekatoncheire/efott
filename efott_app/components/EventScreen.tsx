@@ -36,6 +36,7 @@ export default function EventScreen() {
             }
             if (data) {
                 setEvents(data)
+                console.log(events)
             }
         } catch (error) {
             if (error instanceof Error) {
